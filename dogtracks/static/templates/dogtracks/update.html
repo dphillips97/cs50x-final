@@ -1,0 +1,48 @@
+{% extends 'dogtracks/template.html' %}
+{% load static %}
+
+{% block content %}
+<div class="box">
+	<h1 class="title">Update Pet Info</h1> 
+	<h2 class="subtitle">Editing info for {{ pet.name }}</h2>	
+	<div class="field">
+		<label class="label">Name</label>
+		<div class="control">
+			<input class="input" type="text" placeholder="{{ pet.name }}">
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label">Breed</label>
+		<div class="control">
+			<input class="input" type="text" placeholder="{{ pet.breed }}">
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label">Species</label>
+		<div class="control">
+			<input class="input" type="text" placeholder="{{ pet.species }}">
+		</div>
+	</div>
+
+	<div class="field is-grouped">
+		<div class="control" id="btn-save">
+			<button class="button is-primary" type="submit">
+			Make Changes
+			</button>
+		</div>
+		<div class="control" id="btn-cancel">
+			<button  class="button is-primary is-light">
+			Cancel
+			</button>
+		</div>
+		<div class="control" id="btn-remove">
+			<button class="button is-warning is-light" id="remove">
+			Remove Pet
+			</button>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
