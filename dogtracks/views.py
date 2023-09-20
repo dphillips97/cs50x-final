@@ -20,7 +20,7 @@ def index(request):
 
 	else:
 		
-		return render(request, 'dogtracks/login.html')
+		return render(request, "dogtracks/login.html")
 
 def update_pet(request, id):
 
@@ -29,6 +29,17 @@ def update_pet(request, id):
 	context = {"pet": pet}
 
 	return render(request, "dogtracks/update.html", context)
+
+def remove_pet(request, id):
+
+	pet = Animal.objects.get(id=id)
+
+	context = {"message": f"{pet.name} removed."}
+
+	pet.delete()
+
+	return render(request, "dogtracks/dashboard.html")
+
 
 def login_view(request):
 	if request.method == 'POST':
