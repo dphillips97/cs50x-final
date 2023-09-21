@@ -2,87 +2,33 @@
 {% load static %}
 
 {% block content %}
-	
+
 <div class="tile is-ancestor">
-	<div class="tile is-4">
-		<div class="tile is-child box">
-			<p class="title">My Pets</p>
-
-			<!-- Form in card -->
-			<div class="card">
-				<div class="field">
-					<div class="control">
-
+	<div class="tile is-4 is-parent is-vertical"> <!-- pets column -->
+		<p class="title">My Pets</p>
+		{% for pet in pets %}
+		<div class="card is-child">
+			<div class="card-header">
+				<div class="card-header-title">{{ pet.name }}</div>
 			</div>
-
-			{% for pet in pets %}
-			<div class="card">
-				<header class="card-header">
-					<p class="card-header-title">
-						{{ pet.name }}
-					</p>
-				</header>
-				<div class="card-image">
-					<figure class="image is-3by3">
-						<img src="{% static pet.photo.url %}" />
-					</figure>
-				</div>
-
-				<div class="card-content">
-					<span class="tag is-info">
-					{{ pet.species }}
-					</span>
-					<span class="tag is-info">
-					{{ pet.breed }}
-					</span>
-				</div>
-				<footer class="card-footer">
-					<a href="update-pet/{{ pet.id }}" class="card-footer-item">
-						Update
-					</a>
+			<div class="card-image">
+				<img src="{{ pet.photo.url }}" />
 			</div>
-			<br />
-		{% endfor %}
+			<div class="card-content">
+				<div class="content">
+					<span class="tag is-primary">{{ pet.species }}</span>
+					<span class="tag is-primary">{{ pet.breed }}</span>
+				</div>
+			</div>
+			<div class="card-footer">
+				<a href="#" class="card-footer-item">Edit</a>
+			</div>
 		</div>
+		{% endfor %}
 	</div>
 
-	<!-- Schedule column -->
-	<div class="tile">
-		<div class="tile is-child box">
-			<p class="title">My Schedule</p>
-
-			{% for visit in visits %}
-			<div class="card">
-				<div class="card-header">
-					<p class="card-header-title">
-						Visit ID #{{ visit.id }}
-					</p>
-				</div>
-				<div class="card-content">
-					<div class="content">
-						<span class="tag">
-							Starting on {{ visit.start }}
-						</span>
-						<span class="tag">
-							Ending on {{ visit.end }}
-						</span>
-						<span class="tag is-primary">
-							{{ visit.status }}
-						</span>
-					</div>
-				</div>
-
-				<footer class="card-footer">
-					<a href="#" class="card-footer-item">
-						Reschedule
-					</a>
-					<a href="#" class="card-footer-item">
-						Cancel Visit
-					</a>
-				</footer>
-			</div>	
-			{% endfor %}
-		</div>
+	<div class="tile is-parent"> <!-- visits column -->
+		<p class="title">My Visits</p>
 	</div>
 </div>
 
