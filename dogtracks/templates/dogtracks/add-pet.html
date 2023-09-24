@@ -1,0 +1,56 @@
+{% extends 'dogtracks/template.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<form action="{ url 'add_pet' }" method="post">
+		{% csrf_token %}
+		
+		<div class="field">
+			<label class="label">{{ form.name.label_tag }}</label>
+			<div class="control">
+				<input class="input" type="text" name="{{ form.name }}">
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="label">{{ form.breed.label_tag }}</label>
+			<div class="control">
+				<input class="input" type="text">
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="label">{{ form.species.label_tag }}</label>
+			<div class="control">
+				<input class="input" type="text">
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="label">{{ form.birthday.label_tag }}</label>
+			<div class="control">
+				<input class="input" type="date">
+			</div>
+		</div>
+
+		<div class="file">
+			<label class="file-label">
+				<input class="file-input" type="file" name="photo">
+				<span class="file-cta">
+					<span class="file-label">Upload your photo</span>
+				</span>
+			</label>
+		</div>
+
+		<div class="field is-grouped">
+  			<div class="control">
+    			<input class="button" type="submit" value="Add pet" />
+    		</div>
+  			<div class="control">
+    			<button class="button" id="btn-cancel">Cancel</button>
+  			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 
@@ -22,22 +22,34 @@ def index(request):
 		
 		return render(request, "dogtracks/login.html")
 
+def add_pet(request):
+		
+		form = AnimalForm(request.POST or None)
+
+		if request.method == 'POST':
+			if form.is_valid():
+				
+
+				pet = form.save(commit=False)
+				pet.owner = request.user
+				pet.save()
+			
+				return redirect("dogtracks:dashboard")
+
+		# If GET or form is not valid
+		return render(request, "dogtracks/add-pet.html", {"form": form})
+
 def update_pet(request, id):
 
 	pet = Animal.objects.get(id=id)
-
 	context = {"pet": pet}
-
 	return render(request, "dogtracks/update.html", context)
 
 def remove_pet(request, id):
 
 	pet = Animal.objects.get(id=id)
-
 	context = {"message": f"{pet.name} removed."}
-
 	pet.delete()
-
 	return render(request, "dogtracks/dashboard.html")
 
 

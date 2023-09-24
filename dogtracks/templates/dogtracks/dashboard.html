@@ -6,13 +6,15 @@
 <div class="tile is-ancestor">
 	<div class="tile is-4 is-parent is-vertical"> <!-- pets column -->
 		<p class="title">My Pets</p>
+		<a href="/dogtracks/add-pet">Add pet</a>
+
 		{% for pet in pets %}
 		<div class="card is-child">
 			<div class="card-header">
 				<div class="card-header-title">{{ pet.name }}</div>
 			</div>
 			<div class="card-image">
-				<img src="{{ pet.photo.url }}" />
+				<img src="{{ pet.photo }}" />
 			</div>
 			<div class="card-content">
 				<div class="content">
@@ -25,7 +27,7 @@
 			</div>
 		</div>
 		{% endfor %}
-	</div>
+	</div> <!-- end column -->
 
 	<div class="tile is-parent"> <!-- visits column -->
 		<p class="title">My Visits</p>

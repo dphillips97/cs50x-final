@@ -12,8 +12,8 @@ class Animal(models.Model):
 
 	# shows up as owner_id
 	owner = models.ForeignKey(User, related_name='animals', on_delete=models.SET_NULL, null=True)
-	name = models.CharField(max_length=25, null=False, blank=False)
-	photo = models.FileField(upload_to='media/', null=True)
+	name = models.CharField(max_length=25, null=False, blank=False, verbose_name="Pet name")
+	photo = models.FileField(upload_to='media/', null=True, blank=True)
 	breed = models.CharField(max_length=25, blank=True)
 	species = models.CharField(max_length=25, blank=True)
 	birthday = models.DateField(auto_now=False, auto_now_add=False, null=True)

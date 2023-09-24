@@ -132,6 +132,9 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Path to root directory where files are getting stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media', 'images')
 
+# URL that serves media files
+# Serve from Amazon S3 in production for example
 MEDIA_URL = '/media/'
