@@ -3,34 +3,63 @@
 
 {% block content %}
 
-<div class="tile is-ancestor">
+<div class="tile is-ancestor"> <!-- Wraps all other tiles -->
 	<div class="tile is-4 is-parent is-vertical"> <!-- pets column -->
-		<p class="title">My Pets</p>
-		<a href="/dogtracks/add-pet">Add pet</a>
-
-		{% for pet in pets %}
-		<div class="card is-child">
-			<div class="card-header">
-				<div class="card-header-title">{{ pet.name }}</div>
+		<div class="columns is-vcentered">
+			<div class="column is-10">
+				<h1 class="title">My Pets</h1>
 			</div>
-			<div class="card-image">
-				<img src="{{ pet.photo }}" />
-			</div>
-			<div class="card-content">
-				<div class="content">
-					<span class="tag is-primary">{{ pet.species }}</span>
-					<span class="tag is-primary">{{ pet.breed }}</span>
-				</div>
-			</div>
-			<div class="card-footer">
-				<a href="#" class="card-footer-item">Edit</a>
+			<div class="column">
+				<a class="button is-outlined is-small" href="{% url 'add_pet' %}">Add pet</a>
 			</div>
 		</div>
-		{% endfor %}
+
+		{% for pet in pets %}
+		<div class="tile is-child box">
+			<article class="media">
+				<div class="media-left">
+					<figure class="image is-64x64">
+						<img src="{{ pet.photo }}" />
+					</figure>
+				</div>
+				<div class="media-content">
+					<div class="content">
+						<p><strong>{{ pet.name }}</strong></p>
+						<br />
+						<div class="columns is-vcentered">
+							<div class="column is-10">
+								<span class="tag is-info is-light">{{ pet.species }}</span>
+								<span class="tag is-info is-light">{{ pet.breed }}</span>
+							</div>
+							<div class="column">
+								<a class=" button is-text is-small" href="{% url 'update_pet' pet.id %}">
+								Edit Info
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	{% endfor %}
 	</div> <!-- end column -->
 
-	<div class="tile is-parent"> <!-- visits column -->
-		<p class="title">My Visits</p>
+	<div class="tile is-parent is-vertical"> <!-- visits column -->
+			<div class="columns is-vcentered">
+				<div class="column is-10">
+					<h1 class="title">My Visits</h1>
+				</div>
+				<div class="column">
+					<a class="button is-outlined is-small" href="#">Schedule A Visit</a>
+				</div>
+			</div>
+
+	{% for visit in visits %}
+	<div class="tile is-child box">
+		<span class="button is-static is-large"># {{ visit.id }}</h2>
+	</div>
+	{% endfor %}
+
 	</div>
 </div>
 
