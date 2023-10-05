@@ -3,46 +3,47 @@
 
 {% block content %}
 <div class="box">
-	<h1 class="title">Update Pet Info</h1> 
-	<h2 class="subtitle">Editing info for {{ pet.name }}</h2>	
-	<div class="field">
-		<label class="label">Name</label>
-		<div class="control">
-			<input class="input" type="text" placeholder="{{ pet.name }}">
+	<form action="#" method="post">
+		{% csrf_token %}
+		<h1 class="title">Update Pet Info</h1> 
+		<h2 class="subtitle">Editing info for {{ pet.name }}</h2>	
+		<div class="field">
+			<label class="label">Name</label>
+			<div class="control">
+				<input class="input" type="text" placeholder="{{ pet.name }}">
+			</div>
 		</div>
-	</div>
 
-	<div class="field">
-		<label class="label">Breed</label>
-		<div class="control">
-			<input class="input" type="text" placeholder="{{ pet.breed }}">
+		<div class="field">
+			<label class="label">Breed</label>
+			<div class="control">
+				<input class="input" type="text" placeholder="{{ pet.breed }}">
+			</div>
 		</div>
-	</div>
 
-	<div class="field">
-		<label class="label">Species</label>
-		<div class="control">
-			<input class="input" type="text" placeholder="{{ pet.species }}">
+		<div class="field">
+			<label class="label">Species</label>
+			<div class="control">
+				<input class="input" type="text" placeholder="{{ pet.species }}">
+			</div>
 		</div>
-	</div>
 
-	<div class="field is-grouped">
-		<div class="control" id="btn-save">
-			<button class="button is-primary" type="submit">
-			Make Changes
-			</button>
+		<div class="field is-grouped">
+			<div class="control">
+				<input class="button is-primary" type="submit" value="Make Changes" />
+			</div>
+			<div class="control">
+				<button id="btn-cancel" class="button is-primary is-light">
+				Cancel
+				</button>
+			</div>
+			<div class="control" >
+				<a class="button is-warning is-light is-link" href="/dogtracks/remove-pet/{{ pet.id }}">
+				Remove Pet
+				</a>
+			</div>
 		</div>
-		<div class="control">
-			<button id="btn-cancel" class="button is-primary is-light">
-			Cancel
-			</button>
-		</div>
-		<div class="control" >
-			<a class="button is-warning is-light is-link" href="/dogtracks/remove-pet/{{ pet.id }}">
-			Remove Pet
-			</a>
-		</div>
-	</div>
+	</form>
 </div>
 
 {% endblock %}

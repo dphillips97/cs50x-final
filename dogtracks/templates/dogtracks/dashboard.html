@@ -27,7 +27,7 @@
 						<p><strong>{{ pet.name }}</strong></p>
 						<br />
 						<div class="columns is-vcentered">
-							<div class="column is-10">
+							<div class="column is-9">
 								<span class="tag is-info is-light">{{ pet.species }}</span>
 								<span class="tag is-info is-light">{{ pet.breed }}</span>
 							</div>
@@ -56,7 +56,12 @@
 
 	{% for visit in visits %}
 	<div class="tile is-child box">
-		<span class="button is-static is-large"># {{ visit.id }}</h2>
+			<div class="content">
+				<span class="tag is-info is-large">{{ visit.id }}</span>
+				<span class="tag">From {{ visit.start }}</span>
+				<span class="tag">To {{ visit.end }}</span>
+				<span class="tag">{{ visit.status }}</span>
+			</div>
 	</div>
 	{% endfor %}
 

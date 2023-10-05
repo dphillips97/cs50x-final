@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.urls import reverse
 
 from .models import *
@@ -22,35 +22,49 @@ def index(request):
 		
 		return render(request, "dogtracks/login.html")
 
-def add_pet(request):
+def edit_pet(request, id=None):
+# Create an instance or existing pet OR new pet
+# to use same logic for edit and update
 
-		if request.method == 'POST':
+	# If id is passed in the url then this is an edit
+	# So return existing pet object
+	if id:
+		pet = Animal.objects.filter(id=id).first()
+		title = f"Editing Info for {pet.name}"
 
-			form = AnimalForm(request.POST)
+		if pet.owner != request.user:
+			return HttpResponseForbidden()
 
-			if form.is_valid():
-				
-				pet = form.save(commit=False)
-				pet.owner = request.user
-				pet.save()
-			
-				return HttpResponseRedirect(reverse('index'))
-		else:
-			form = AnimalForm()
+	# No id; create new Animal()
+	else:
+		pet = Animal(owner=request.user)
+		title = "Let's add your pet!"
 
-		# If GET or form is not valid
-		return render(request, "dogtracks/add-pet.html", {"form": form})
+	# Submit: must pass instance for create and edit. 
+	# Do not need 'commit=False' since new pet will have owner set
+	# from this view and existing pet already has owner
+	if request.method == 'POST':
 
-def update_pet(request, id):
+		form = AnimalForm(request.POST, instance=pet)
+		
+		if form.is_valid():
+			pet.save()
+			return HttpResponseRedirect(reverse('index'))
 
-	pet = Animal.objects.get(id=id)
-	context = {"pet": pet}
-	return render(request, "dogtracks/update-pet.html", context)
+	# Return unbound form
+	elif request.method == 'GET':
+
+		form = AnimalForm(instance=pet)
+
+	context = {"form": form,
+				"title": title}
+
+	return render(request, "dogtracks/pet-form.html", context)
+
 
 def remove_pet(request, id):
 
 	pet = Animal.objects.get(id=id)
-	context = {"message": f"{pet.name} removed."}
 	pet.delete()
 	return HttpResponseRedirect(reverse('index'))
 

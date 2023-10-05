@@ -9,9 +9,12 @@ urlpatterns = [
 	path('login/', views.login_view, name='login'),
 	path('logout/', views.logout_view, name='logout'),
 	path('', views.index, name='index'),
-	path('update-pet/<int:id>', views.update_pet, name="update_pet"),
+
+	# Add and update use same view
+	path('add-pet/', views.edit_pet, name="add_pet"),
+	path('update-pet/<int:id>', views.edit_pet, name="update_pet"),
+
 	path('remove-pet/<int:id>', views.remove_pet, name="remove_pet"),
-	path('add-pet/', views.add_pet, name="add_pet"),
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

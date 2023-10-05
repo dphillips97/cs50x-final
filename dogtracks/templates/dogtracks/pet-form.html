@@ -1,0 +1,80 @@
+{% extends 'dogtracks/template.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+
+	<h1 class="title">{{ title }}</h1>
+
+	<form action="" method="post">
+		{% csrf_token %}
+
+		{{ form.as_div }}
+		<!--
+		<div class="field">
+			<label class="label">Name</label>
+			<div class="control">
+				<input class="input is-primary" type="text">{{ form.name }} />
+			</div>
+		</div>
+
+		
+		<div class="field">
+			<label class="label">Breed</label>
+			<div class="control">
+				<input class="input is-primary" type="text" name="{{ form.breed }}">
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="label">Species</label>
+			<div class="control">
+				<input class="input is-primary" type="text" name="{{ form.species }}">
+			</div>
+		</div>
+
+
+		<div class="field">
+			<label class="label">Birthday</label>
+			<div class="control">
+				<input class="input is-primary" type="date" name="{{ form.birthday }}">
+			</div>
+		</div>
+
+		<div class="file is-boxed">
+			<label class="file-label">
+				<input class="file-input" type="file" name="{{ form.photo }}" />
+				<span class="file-cta">
+					<span class="file-icon">
+						📷
+					</span>
+					<span class="file-label">
+						Upload their profile pic
+					</span>
+				</span> 
+			</label>
+		</div>
+	-->
+		<br>
+		
+		<div class="field is-grouped">
+			<div class="control">
+				<input class="button is-primary" type="submit" value="Submit" />
+			</div>
+			<div class="control">
+				<button id="btn-cancel" class="button is-primary is-light">
+				Cancel
+				</button>
+			</div>
+			{% if form.instance.id %}
+				<div class="control" >
+					<a class="button is-warning is-light is-link" href="/dogtracks/remove-pet/{{ form.instance.id  }}">
+					Remove Pet
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</form>
+</div>
+{% endblock %}
