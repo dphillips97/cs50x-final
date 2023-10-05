@@ -16,5 +16,6 @@ urlpatterns = [
 
 	path('remove-pet/<int:id>', views.remove_pet, name="remove_pet"),
 ]
+
 if settings.DEBUG:
 	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
