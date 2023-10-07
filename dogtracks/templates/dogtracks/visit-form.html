@@ -1,0 +1,40 @@
+{% extends 'dogtracks/template.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+
+	<h1 class="title">{{ title }}</h1>
+
+	<form action="" method="post">
+		{% csrf_token %}
+
+		{{ form.as_div }}
+		<br>
+		
+		<div class="field is-grouped">
+			<div class="control">
+				<input class="button is-primary" type="submit" value="Submit" />
+			</div>
+			<div class="control">
+				<button id="btn-cancel" class="button is-primary is-light">
+				Cancel Changes
+				</button>
+			</div>
+			{% if form.instance.id %}
+				<div class="control">
+					<button id="btn-cancel-visit" data-instance="{{ form.instance.id }}" class="button is-warning is-light">
+					Cancel Visit
+					</button>
+				</div>
+				<div class="control">
+					<a class="button is-danger is-light is-link" href="/dogtracks/remove-visit/{{ form.instance.id }}">
+					Delete Visit
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</form>
+</div>
+{% endblock %}

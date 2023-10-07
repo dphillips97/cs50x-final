@@ -3,19 +3,16 @@
 
 {% block content %}
 
-<div class="tile is-ancestor"> <!-- Wraps all other tiles -->
-	<div class="tile is-4 is-parent is-vertical"> <!-- pets column -->
-		<div class="columns is-vcentered">
-			<div class="column is-10">
-				<h1 class="title">My Pets</h1>
-			</div>
-			<div class="column">
-				<a class="button is-outlined is-small" href="{% url 'add_pet' %}">Add pet</a>
-			</div>
+<div class="columns">
+	<div class="column"> <!-- my pets column -->
+		<div class="container">
+			<h1 class="title">My Pets</h1>
+			<a class="button is-text is-small" href="{% url 'add_pet' %}">Add pet</a>
 		</div>
-
+		
+		<br />
 		{% for pet in pets %}
-		<div class="tile is-child box">
+		<div class="box">
 			<article class="media">
 				<div class="media-left">
 					<figure class="image is-64x64">
@@ -26,7 +23,7 @@
 						<p><strong>{{ pet.name }}</strong></p>
 						<br />
 						<div class="columns is-vcentered">
-							<div class="column is-9">
+							<div class="column">
 								<span class="tag is-info is-light">{{ pet.species }}</span>
 								<span class="tag is-info is-light">{{ pet.breed }}</span>
 							</div>
@@ -40,31 +37,44 @@
 				</div>
 			</article>
 		</div>
-	{% endfor %}
-	</div> <!-- end column -->
+		{% endfor %}
+	</div> <!-- end My Pets col -->
 
-	<div class="tile is-parent is-vertical"> <!-- visits column -->
-			<div class="columns is-vcentered">
-				<div class="column is-10">
-					<h1 class="title">My Visits</h1>
-				</div>
-				<div class="column">
-					<a class="button is-outlined is-small" href="#">Schedule A Visit</a>
-				</div>
-			</div>
+	<div class="column"> <!-- visits column -->
+		<div class="block">
+			<h1 class="title">My Visits</h1>
+			<a class="button is-outlined is-primary is-small" href="{% url 'add_visit' %}">Request a visit</a>
+		</div>
+	<br />
 
 	{% for visit in visits %}
-	<div class="tile is-child box">
-			<div class="content">
-				<span class="tag is-info is-large">{{ visit.id }}</span>
-				<span class="tag">From {{ visit.start }}</span>
-				<span class="tag">To {{ visit.end }}</span>
-				<span class="tag">{{ visit.status }}</span>
-			</div>
-	</div>
+	<div class="box">
+			<article class="media">
+				<div class="media-left">
+					<span class="tag is-info is-large">{{ visit.id }}</span>
+				</div>
+				<div class="media-content">
+					<div class="content">
+						<div class="columns is-vcentered">
+							<div class="column">
+								<span class="tag is-info is-light">{{ visit.start }}</span>
+								<span>➡️</span>
+								<span class="tag is-info is-light">{{ visit.end }}</span>
+								<br />
+								<span class="tag">{{ visit.status }}</span>
+							</div>
+							<div class="column">
+								<a class=" button is-text is-small" href="{% url 'update_visit' visit.id %}">
+								Edit Info
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
 	{% endfor %}
 
-	</div>
 </div>
 
 {% endblock %}

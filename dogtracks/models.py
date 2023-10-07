@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django.db import models
 from django import forms
 from django.contrib.auth.models import AbstractUser
+from django.forms.widgets import NumberInput
 
 # Create your models here.
 class User(AbstractUser):
@@ -29,7 +30,7 @@ class AnimalForm(ModelForm):
 	class Meta:
 		model = Animal
 		fields = ['name', 'breed', 'species', 'birthday', 'photo']
-
+		widgets = {'birthday': forms.NumberInput(attrs={'type': 'date'})}
 
 class Visit(models.Model):
 
@@ -37,9 +38,18 @@ class Visit(models.Model):
 	CHOICES = (('request','Request'), ('confirm', 'Confirm'), ('complete', 'Complete'), ('cancel','Cancel'))
 	
 	requester = models.ForeignKey(User, related_name='visits', on_delete=models.SET_NULL, null=True)
-	status = models.CharField(choices=CHOICES, max_length=10)
+	status = models.CharField(choices=CHOICES, max_length=10, default='request')
 	start = models.DateField(auto_now=False,auto_now_add=False)
 	end = models.DateField(auto_now=False,auto_now_add=False)
 
 	def __str__(self):
 		return f"Visit ({self.status}) by user {self.requester}"
+
+class VisitForm(ModelForm):
+	class Meta:
+		model = Visit
+		fields = ['start', 'end']
+		widgets = {
+					'start': forms.NumberInput(attrs={'type': 'date'}),
+					'end': forms.NumberInput(attrs={'type': 'date'})
+					}

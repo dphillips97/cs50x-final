@@ -69,6 +69,69 @@ def remove_pet(request, id):
 	return HttpResponseRedirect(reverse('index'))
 
 
+def edit_visit(request, id=None):
+# Create an instance or existing pet OR new pet
+# to use same logic for edit and update
+	if id:
+		visit = Visit.objects.filter(id=id).first()
+		title = f"Editing Info for Visit #{visit.id}"
+
+		if visit.requester != request.user:
+			return HttpResponseForbidden()
+
+	# No id; create new Visit()
+	else:
+		visit = Visit(requester=request.user)
+		title = "Request a Visit"
+
+	# Submit: must pass instance for create and edit. 
+	# Do not need 'commit=False' since new pet will have owner set
+	# from this view and existing pet already has owner
+	if request.method == 'POST':
+
+		form = VisitForm(request.POST, instance=visit)
+		
+		if form.is_valid():
+			visit.save()
+			return HttpResponseRedirect(reverse('index'))
+
+	# Return unbound form
+	elif request.method == 'GET':
+
+		form = VisitForm(instance=visit)
+
+	context = {"form": form,
+				"title": title}
+
+	return render(request, "dogtracks/visit-form.html", context)
+
+
+def remove_visit(request, id):
+
+	visit = Visit.objects.get(id=id)
+	visit.delete()
+	return HttpResponseRedirect(reverse('index'))
+
+
+# API call
+def visit_status(request, id):
+
+	try:
+		visit = Visit.objects.get(id=id)
+
+	except:
+		return JsonResponse({"message": f"Can not find visit {id}."}, status=404)
+
+	if request.method == 'PUT':
+		visit['status'] = 'cancel'
+		visit.save()
+		return JsonResponse({"message":"Visit cancelled successfully."}, status=204)
+
+	else:
+		return JsonResponse({"message": "PUT request required."}, status=400)
+
+
+
 def login_view(request):
 	if request.method == 'POST':
 		

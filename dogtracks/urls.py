@@ -13,8 +13,14 @@ urlpatterns = [
 	# Add and update use same view
 	path('add-pet/', views.edit_pet, name="add_pet"),
 	path('update-pet/<int:id>', views.edit_pet, name="update_pet"),
-
 	path('remove-pet/<int:id>', views.remove_pet, name="remove_pet"),
+
+	path('add-visit/', views.edit_visit, name="add_visit"),
+	path('update-visit/<int:id>', views.edit_visit, name="update_visit"),
+	path('remove-visit/<int:id>', views.remove_visit, name="remove_visit"),
+
+	# API call to change status
+	path('visit-status/<int:id>', views.visit_status, name="visit_status"),
 ]
 
 if settings.DEBUG:
