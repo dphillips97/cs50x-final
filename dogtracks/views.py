@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import JsonResponse, HttpResponseForbidden
+from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+import json
 
 from .models import *
 
@@ -114,21 +116,33 @@ def remove_visit(request, id):
 
 
 # API call
+@csrf_exempt
 def visit_status(request, id):
+
+	payload = {'message': None}
 
 	try:
 		visit = Visit.objects.get(id=id)
 
 	except:
-		return JsonResponse({"message": f"Can not find visit {id}."}, status=404)
+
+		payload['message'] = 'Can not find visit'
 
 	if request.method == 'PUT':
-		visit['status'] = 'cancel'
+
+		if visit.status == 'cancel':
+			visit.status = 'request'
+		elif visit.status in ('request', 'confirm'):
+			visit.status = 'cancel'
+		
 		visit.save()
-		return JsonResponse({"message":"Visit cancelled successfully."}, status=204)
+
+		payload['message'] = 'Visit updated successfully.'
 
 	else:
-		return JsonResponse({"message": "PUT request required."}, status=400)
+		payload['message'] = 'PUT request required.'
+
+	return JsonResponse(payload, safe=False)
 
 
 
