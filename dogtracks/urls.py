@@ -8,6 +8,8 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('login/', views.login_view, name='login'),
 	path('logout/', views.logout_view, name='logout'),
+	path('register/', views.register, name='register'),
+	
 	path('', views.index, name='index'),
 
 	# Add and update use same view
@@ -20,7 +22,7 @@ urlpatterns = [
 	path('remove-visit/<int:id>', views.remove_visit, name="remove_visit"),
 
 	# API call to change status
-	path('visit-status/<int:id>', views.visit_status, name="visit_status"),
+	path('cancel-visit/<int:id>', views.cancel_visit, name="cancel_visit"),
 ]
 
 if settings.DEBUG:

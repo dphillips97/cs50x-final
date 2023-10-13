@@ -22,20 +22,25 @@
 	<br>
 	<div class="field is-grouped">
 		<div class="control">
-			<button id="btn-cancel" class="button is-primary is-light">
-			Cancel Changes
+			<button id="btn-cancel-changes" class="button is-info">
+			Back to Dashboard
 			</button>
 		</div>
-		{% if form.instance.id %}
+		{% if form.instance.id %} 
+		<!-- If instance already exists, show 'delete' -->
+		<!-- If instance exists and is requested, show 'cancel' button -->
 		<div class="control">
-			<button id="btn-alter-visit" data-instance="{{ form.instance.id }}" 
-			data-status="{{ form.instance.status }}" class="button is-warning is-light">
-				Update Visit
+			<!-- Allow stauts update to 'cancel' -->
+			{% if form.instance.status == 'request' %}
+			<button id="btn-cancel-visit" data-instance="{{ form.instance.id }}" 
+			data-status="{{ form.instance.status }}" class="button is-warning">
+				Cancel This Visit
 			</button>
+			{% endif %}
 		</div>
 		<div class="control">
-			<a class="button is-danger is-light is-link" href="/dogtracks/remove-visit/{{ form.instance.id }}">
-				Delete Visit
+			<a class="button is-danger is-link" href="/dogtracks/remove-visit/{{ form.instance.id }}">
+				Delete this Visit
 			</a>
 		</div>
 		{% endif %}

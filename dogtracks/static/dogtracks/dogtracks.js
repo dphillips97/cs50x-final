@@ -1,24 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-	document.getElementById('btn-cancel').addEventListener('click', redirect);
+	// Cancel and return to dashboard
+	document.getElementById('btn-cancel-changes').addEventListener('click', redirect);
 
-	document.getElementById('btn-alter-visit').addEventListener('click', visitStatus);
+	// Cancel the visit request
+	document.getElementById('btn-cancel-visit').addEventListener('click', cancelVisit);
+	
 });
 
-function visitStatus(event) {
+function cancelVisit(event) {
 
 	let visitId = this.dataset.instance;
 
-	let visitStatus = this.dataset.status;
-
-
-	fetch(`/dogtracks/visit-status/${visitId}`, {
+	fetch(`/dogtracks/cancel-visit/${visitId}`, {
 		method: 'PUT',
-		body: JSON.stringify({'status': visitStatus}),
+		body: JSON.stringify({'status': 'cancel'}),
 		credentials: 'include',
 	})
 	.then(response => response.json())
-	.then(redirect());
+	.then(data => {
+		if (data['status'] == 'cancel') {
+			event.target.innerText = 'Visit Cancelled';
+			event.target.classList.add("is-static");
+			}
+		});
 };
 
 function redirect() {

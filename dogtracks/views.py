@@ -76,7 +76,7 @@ def edit_visit(request, id=None):
 # to use same logic for edit and update
 	if id:
 		visit = Visit.objects.filter(id=id).first()
-		title = f"Editing Info for Visit #{visit.id}"
+		title = f"Editing Visit #{visit.id}"
 
 		if visit.requester != request.user:
 			return HttpResponseForbidden()
@@ -93,7 +93,10 @@ def edit_visit(request, id=None):
 
 		form = VisitForm(request.POST, instance=visit)
 		
+		# Set status to 'request' upon submit even if visit status is 'cancel'
 		if form.is_valid():
+			
+			visit.status = 'request'
 			visit.save()
 			return HttpResponseRedirect(reverse('index'))
 
@@ -117,7 +120,7 @@ def remove_visit(request, id):
 
 # API call
 @csrf_exempt
-def visit_status(request, id):
+def cancel_visit(request, id):
 
 	payload = {'message': None}
 
@@ -130,14 +133,13 @@ def visit_status(request, id):
 
 	if request.method == 'PUT':
 
-		if visit.status == 'cancel':
-			visit.status = 'request'
-		elif visit.status in ('request', 'confirm'):
+		if visit.status in ('request', 'confirm'):
 			visit.status = 'cancel'
 		
 		visit.save()
 
 		payload['message'] = 'Visit updated successfully.'
+		payload['status'] = visit.status
 
 	else:
 		payload['message'] = 'PUT request required.'
@@ -172,3 +174,32 @@ def logout_view(request):
 
 	logout(request)
 	return HttpResponseRedirect(reverse("index"))
+
+# Borrowed from project 4 Network b/c I can't get
+# a CreateUser form to work - maybe a AbstractUser
+# class issue
+def register(request):
+	
+	if request.method == "POST":
+
+		username = request.POST["username"]
+		password = request.POST["password"]
+		password_confirm = request.POST["password_confirm"]
+        
+        # Handle in model eventually
+		if password != password_confirm:
+			return render(request, "dogtracks/register.html", {
+				"message": "Passwords must match."})
+		try:
+			new_user = User.objects.create_user(username, password)
+			new_user.save()
+
+		except IntegrityError:
+			return render(request, "dogtracks/register.html", {
+				"message": "Username already taken, please choose another."})
+        
+		# Success
+		login(request, new_user)
+		return HttpResponseRedirect(reverse("index"))
+	else:
+		return render(request, "dogtracks/register.html")
