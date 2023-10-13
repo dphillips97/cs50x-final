@@ -7,7 +7,7 @@
 	<div class="column"> <!-- my pets column -->
 		<div class="container">
 			<h1 class="title">My Pets</h1>
-			<a class="button is-text is-small" href="{% url 'add_pet' %}">Add pet</a>
+			<a class="button is-small" href="{% url 'add_pet' %}">Add pet</a>
 		</div>
 		
 		<br />
@@ -16,7 +16,9 @@
 			<article class="media">
 				<div class="media-left">
 					<figure class="image is-64x64">
-						<img src="{{ pet.photo.url }}" />
+						{% if pet.photo %}
+							<img src="{{ pet.photo.url }}" />
+						{% endif %}
 					</figure>
 				</div>
 				<div class="media-content">
@@ -44,39 +46,40 @@
 	<div class="column"> <!-- visits column -->
 		<div class="block">
 			<h1 class="title">My Visits</h1>
-			<a class="button is-outlined is-primary is-small" href="{% url 'add_visit' %}">Request a visit</a>
+			<a class="button is-primary" href="{% url 'add_visit' %}">Request a visit</a>
+			
 		</div>
-	<br />
-
-	{% for visit in visits %}
-	<div class="box">
-			<article class="media">
-				<div class="media-left">
-					<span class="tag is-info is-large">{{ visit.id }}</span>
+		<div class="block">
+			<div class="field is-grouped">
+				<div class="control">
+					<button class="button is-outlined filter" data-filterType="all"> 
+						All
+					</button>
 				</div>
-				<div class="media-content">
-					<div class="content">
-						<div class="columns is-vcentered">
-							<div class="column">
-								<span class="tag is-info is-light">{{ visit.start }}</span>
-								<span>➡️</span>
-								<span class="tag is-info is-light">{{ visit.end }}</span>
-								<span class="tag is-info is-light">📅 {{ visit.visit_length }}</span>
-								<br />
-								<span class="tag">{{ visit.status }}</span>
-							</div>
-							<div class="column">
-								<a class=" button is-text is-small" href="{% url 'update_visit' visit.id %}">
-								Edit Info
-								</a>
-							</div>
-						</div>
-					</div>
+				<div class="control">
+					<button class="button is-primary is-outlined filter" data-filterType="request"> 
+						Requested
+					</button>
 				</div>
-			</article>
+				<div class="control">
+					<button class="button is-danger is-outlined filter" data-filterType="cancel">
+						Cancelled
+					</button>
+				</div>
+				<div class="control">
+					<button class="button is-success is-outlined filter" data-filterType="confirm">
+						Confirmed
+					</button>
+				</div>
+				<div class="control">
+					<button class="button is-info is-outlined filter" data-filterType="complete">
+						Completed
+					</button>
+				</div>
+			</div>
 		</div>
-	{% endfor %}
-
+		
+	{% include "dogtracks/visit-list.html" %}
 </div>
 
 {% endblock %}

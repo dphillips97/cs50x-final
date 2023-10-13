@@ -1,12 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 	// Cancel and return to dashboard
-	document.getElementById('btn-cancel-changes').addEventListener('click', redirect);
+	let cancelChangesBtn = document.getElementById('btn-cancel-changes');
+	if (cancelChangesBtn !== null) {
+		cancelChangesBtn.addEventListener('click', redirect);
+	};
+
+	// Filter visits
+	document.addEventListener('click', filterVisits);
 
 	// Cancel the visit request
-	document.getElementById('btn-cancel-visit').addEventListener('click', cancelVisit);
+	let cancelVisitButton = document.getElementById('btn-cancel-visit');
+	if (cancelVisitButton !== null) {
+		cancelVisitButton.addEventListener('click', cancelVisit);
+	};
 	
 });
+
+function filterVisits(event) {
+	var filterButton = event.target;
+	if (filterButton.classList.contains('filter')) {
+		
+		let filterName = filterButton.dataset.filtertype;
+		console.log(`Filtering for visits of type ${filterName}`);
+
+		fetch(`/dogtracks/show-visits/${filterName}`, {
+			method:'GET'
+		})
+		.then(response => response.json())
+		.then(data => {
+    		data.visits.forEach(visit => {
+    			console.log(`${visit['id']}`);
+			}) // Close forEach
+		}) // Close last 'then'
+	}; // Close if
+};
 
 function cancelVisit(event) {
 
@@ -24,6 +52,10 @@ function cancelVisit(event) {
 			event.target.classList.add("is-static");
 			}
 		});
+};
+
+function filterVisitsRequest(event) {
+	console.log('Filter by request click');
 };
 
 function redirect() {

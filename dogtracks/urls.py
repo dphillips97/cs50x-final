@@ -21,8 +21,9 @@ urlpatterns = [
 	path('update-visit/<int:id>', views.edit_visit, name="update_visit"),
 	path('remove-visit/<int:id>', views.remove_visit, name="remove_visit"),
 
-	# API call to change status
+	# API calls
 	path('cancel-visit/<int:id>', views.cancel_visit, name="cancel_visit"),
+	path('show-visits/<str:visit_type>', views.visit_type, name="visit_type"),
 ]
 
 if settings.DEBUG:

@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+from django.core import serializers
 import json
 
 from .models import *
@@ -13,10 +14,10 @@ def index(request):
 
 		pets = Animal.objects.filter(owner=request.user)
 
-		visits = Visit.objects.filter(requester=request.user)
+		#visits = Visit.objects.filter(requester=request.user)
 
-		context = {"pets": pets,
-					"visits": visits}
+		context = {"pets": pets}
+					#"visits": visits
 
 		return render(request, "dogtracks/dashboard.html", context)
 
@@ -146,7 +147,23 @@ def cancel_visit(request, id):
 
 	return JsonResponse(payload, safe=False)
 
+def visit_type(request, visit_type):
 
+	try:
+		if visit_type != 'all':
+			visits = Visit.objects.filter(status=visit_type).filter(requester=request.user).all()
+		elif visit_type == 'all':
+			visits = Visit.objects.filter(requester=request.user).all()
+
+		print(visits)
+
+	except:
+		message = 'No visits found'
+
+	if request.method == 'GET':
+
+		return render(request, "dogtracks/visit-list.html",
+			serializers.serialize('python', visits))
 
 def login_view(request):
 	if request.method == 'POST':
