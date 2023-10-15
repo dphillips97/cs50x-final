@@ -3,7 +3,6 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import AbstractUser
 from django.forms.widgets import NumberInput
-from datetime import date
 
 # Create your models here.
 class User(AbstractUser):
@@ -46,14 +45,9 @@ class Visit(models.Model):
 		return f"Visit ({self.status}) by user {self.requester}"
 
 	@property
-	def get_visit_length(self):
+	def duration(self):
 		visit_length = self.end - self.start
 		return visit_length.days
-
-	# Need to override base class method since we're calculating duration
-	def save(self, *args, **kwargs):
-		self.visit_length = self.get_visit_length
-		super(Visit, self).save(*args, **kwargs)
 
 class VisitForm(ModelForm):
 	class Meta:

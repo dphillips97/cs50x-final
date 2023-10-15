@@ -3,9 +3,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
-from django.core import serializers
 import json
-
 from .models import *
 
 def index(request):
@@ -150,20 +148,16 @@ def cancel_visit(request, id):
 def visit_type(request, visit_type):
 
 	try:
-		if visit_type != 'all':
-			visits = Visit.objects.filter(status=visit_type).filter(requester=request.user).all()
-		elif visit_type == 'all':
+		if visit_type == 'all':
 			visits = Visit.objects.filter(requester=request.user).all()
-
-		print(visits)
-
+		else:
+			visits = Visit.objects.filter(status=visit_type).filter(requester=request.user).all()
 	except:
 		message = 'No visits found'
 
-	if request.method == 'GET':
+	return render(request, "dogtracks/visit-list.html", {'visits': visits})
 
-		return render(request, "dogtracks/visit-list.html",
-			serializers.serialize('python', visits))
+		
 
 def login_view(request):
 	if request.method == 'POST':
@@ -211,7 +205,7 @@ def register(request):
 			new_user = User.objects.create_user(username, password)
 			new_user.save()
 
-		except IntegrityError:
+		except:
 			return render(request, "dogtracks/register.html", {
 				"message": "Username already taken, please choose another."})
         

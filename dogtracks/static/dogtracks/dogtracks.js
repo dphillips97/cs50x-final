@@ -6,34 +6,48 @@ document.addEventListener('DOMContentLoaded', function() {
 		cancelChangesBtn.addEventListener('click', redirect);
 	};
 
-	// Filter visits
-	document.addEventListener('click', filterVisits);
-
 	// Cancel the visit request
 	let cancelVisitButton = document.getElementById('btn-cancel-visit');
 	if (cancelVisitButton !== null) {
 		cancelVisitButton.addEventListener('click', cancelVisit);
 	};
+
+	// Filter visits
+	document.addEventListener('click', filterVisits);
+
+	// Load all visits as default
+	filterVisits(event);
 	
 });
 
 function filterVisits(event) {
-	var filterButton = event.target;
-	if (filterButton.classList.contains('filter')) {
+// HTML class: filtertype 
+// JS argument: filterType
+// var passed to API: filterName
+
+	// If visitsDiv exists then we're good to go
+	let visitsDiv = document.querySelector('#visits-div');
+
+	if (visitsDiv !== null) {
 		
-		let filterName = filterButton.dataset.filtertype;
+		let filterName = null;
+
+		// Make sure clicked button has filter function
+		if (event.target.tagName == 'BUTTON' && event.target.classList.contains('filter')) {
+			filterName = event.target.dataset.filtertype;
+		} else {
+			filterName = 'all';
+		}
+
+		// Sanity check
 		console.log(`Filtering for visits of type ${filterName}`);
 
-		fetch(`/dogtracks/show-visits/${filterName}`, {
-			method:'GET'
-		})
-		.then(response => response.json())
-		.then(data => {
-    		data.visits.forEach(visit => {
-    			console.log(`${visit['id']}`);
-			}) // Close forEach
-		}) // Close last 'then'
-	}; // Close if
+		fetch(`/dogtracks/show-visits/${filterName}`)
+		.then(response => response.text())
+		.then(text => {
+			visitsDiv.innerHTML = text;
+		});
+	};
 };
 
 function cancelVisit(event) {
@@ -52,10 +66,6 @@ function cancelVisit(event) {
 			event.target.classList.add("is-static");
 			}
 		});
-};
-
-function filterVisitsRequest(event) {
-	console.log('Filter by request click');
 };
 
 function redirect() {

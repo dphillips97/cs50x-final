@@ -10,57 +10,43 @@
 	<form action="" method="post">
 		{% csrf_token %}
 
-		{{ form.as_div }}
-		<!--
 		<div class="field">
-			<label class="label">Name</label>
+			<label class="label">{{ form.name.label }}</label>
 			<div class="control">
-				<input class="input is-primary" type="text">{{ form.name }} />
+				{{ form.name }}
 			</div>
 		</div>
-
 		
 		<div class="field">
-			<label class="label">Breed</label>
+			<label class="label">{{ form.breed.label }}</label>
 			<div class="control">
-				<input class="input is-primary" type="text" name="{{ form.breed }}">
+				{{ form.breed }}
 			</div>
 		</div>
 
 		<div class="field">
-			<label class="label">Species</label>
+			<label class="label">{{ form.species.label }}</label>
 			<div class="control">
-				<input class="input is-primary" type="text" name="{{ form.species }}">
+				{{ form.species }}
 			</div>
 		</div>
-
 
 		<div class="field">
-			<label class="label">Birthday</label>
+			<label class="label">{{ form.birthday.label }}</label>
 			<div class="control">
-				<input class="input is-primary" type="date" name="{{ form.birthday }}">
+				{{ form.birthday }}
 			</div>
 		</div>
 
-		<div class="file is-boxed">
-			<label class="file-label">
-				<input class="file-input" type="file" name="{{ form.photo }}" />
-				<span class="file-cta">
-					<span class="file-icon">
-						📷
-					</span>
-					<span class="file-label">
-						Upload their profile pic
-					</span>
-				</span> 
-			</label>
+		<div class="field">
+			<label class="label">{{ form.photo.label }}</label>
+			{{ form.photo }}
 		</div>
-	-->
 		<br>
 		
 		<div class="field is-grouped">
 			<div class="control">
-				<input class="button is-primary" type="submit" value="Submit" />
+				<input class="button is-primary" type="submit" value="Save changes" />
 			</div>
 			<div class="control">
 				<button id="btn-cancel-changes" class="button is-primary is-light">
