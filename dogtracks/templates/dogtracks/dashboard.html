@@ -2,86 +2,96 @@
 {% load static %}
 
 {% block content %}
-
-<div class="columns">
-	<div class="column"> <!-- my pets column -->
-		<div class="container">
-			<h1 class="title">My Pets</h1>
-			<a class="button is-small" href="{% url 'add_pet' %}">Add pet</a>
-		</div>
-		
-		<br />
-		{% for pet in pets %}
-		<div class="box">
-			<article class="media">
-				<div class="media-left">
-					<figure class="image is-64x64">
-						{% if pet.photo %}
-							<img src="{{ pet.photo.url }}" />
-						{% endif %}
-					</figure>
-				</div>
-				<div class="media-content">
-					<div class="content">
-						<p><strong>{{ pet.name }}</strong></p>
-						<br />
-						<div class="columns is-vcentered">
-							<div class="column">
-								<span class="tag is-info is-light">{{ pet.species }}</span>
-								<span class="tag is-info is-light">{{ pet.breed }}</span>
-							</div>
-							<div class="column">
-								<a class=" button is-text is-small" href="{% url 'update_pet' pet.id %}">
-								Edit Info
-								</a>
+<div class="container">
+	<div class="columns">
+		<div class="column"> <!-- my pets column -->
+			<div class="container">
+				<h1 class="title">My Pets</h1>
+				<a class="button is-small" href="{% url 'add_pet' %}">Add pet</a>
+			</div>
+			
+			<br />
+			{% for pet in pets %}
+			<div class="box">
+				<article class="media">
+					<div class="media-left">
+						<figure class="image is-64x64">
+							{% if pet.photo %}
+								<!-- show image -->
+							{% else %}
+								<-- Placeholder image -->
+							{% endif %}
+						</figure>
+					</div>
+					<div class="media-content">
+						<div class="content">
+							<p><strong>{{ pet.name }}</strong></p>
+							<br />
+							<div class="columns is-vcentered">
+								<div class="column">
+									<span class="tag is-info is-light">{{ pet.species }}</span>
+									<span class="tag is-info is-light">{{ pet.breed }}</span>
+								</div>
+								<div class="column">
+									<a class=" button is-small" href="{% url 'update_pet' pet.id %}">
+									Edit Info
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</article>
-		</div>
-		{% endfor %}
-	</div> <!-- end My Pets col -->
+				</article>
+			</div>
+			{% endfor %}
+		</div> <!-- end My Pets col -->
 
-	<div class="column"> <!-- visits column -->
-		<div class="block">
-			<h1 class="title">My Visits</h1>
-			<a class="button is-primary" href="{% url 'add_visit' %}">Request a visit</a>
-			
-		</div>
-		<div class="block">
-			<div class="field is-grouped">
-				<div class="control">
-					<button class="button is-outlined filter" data-filtertype="all"> 
-						All
-					</button>
-				</div>
-				<div class="control">
-					<button class="button is-primary is-outlined filter" data-filtertype="request"> 
-						Requested
-					</button>
-				</div>
-				<div class="control">
-					<button class="button is-danger is-outlined filter" data-filtertype="cancel">
-						Cancelled
-					</button>
-				</div>
-				<div class="control">
-					<button class="button is-success is-outlined filter" data-filtertype="confirm">
-						Confirmed
-					</button>
-				</div>
-				<div class="control">
-					<button class="button is-info is-outlined filter" data-filtertype="complete">
-						Completed
-					</button>
+		<div class="column"> <!-- visits column -->
+			<div class="block">
+				<h1 class="title">My Visits</h1>
+				<a class="button is-info" href="{% url 'add_visit' %}">Request a visit</a>
+				
+			</div>
+			<div class="block">
+				<div class="field is-grouped">
+					<div class="control">
+						<button class="button is-outlined filter" data-filtertype="all"> 
+							All
+						</button>
+					</div>
+					<div class="control">
+						<button class="button is-info is-outlined filter" data-filtertype="request"> 
+							Requested
+						</button>
+					</div>
+					<div class="control">
+						<button class="button is-warning is-outlined filter" data-filtertype="cancel">
+							Cancelled
+						</button>
+					</div>
+					<div class="control">
+						<button class="button is-primary is-outlined filter" data-filtertype="confirm">
+							Confirmed
+						</button>
+					</div>
+					<div class="control">
+						<button class="button is-link is-outlined filter" data-filtertype="complete">
+							Completed
+						</button>
+					</div>
 				</div>
 			</div>
+		
+		<div id="visits-div">	
+			{% include "dogtracks/visit-list.html" %}
 		</div>
-	
-	<div id="visits-div">	
-		{% include "dogtracks/visit-list.html" %}
 	</div>
 </div>
+<footer class="footer">
+	<div class="content has-text">
+		<p>
+			Pet by WEBTECHOPS LLP from <a href="https://thenounproject.com/browse/icons/term/pet/" target="_blank" title="Pet Icons">Noun Project</a> (CC BY 3.0)
+		</p>
+	</div>
+</footer>
 
 {% endblock %}

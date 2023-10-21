@@ -1,8 +1,10 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from django.db import models
 from django import forms
 from django.contrib.auth.models import AbstractUser
 from django.forms.widgets import NumberInput
+from datetime import date
+
 
 # Create your models here.
 class User(AbstractUser):
@@ -30,10 +32,11 @@ class AnimalForm(ModelForm):
 		fields = ['name', 'breed', 'species', 'birthday', 'photo']
 		widgets = {'birthday': forms.NumberInput(attrs={'type': 'date'})}
 
+
 class Visit(models.Model):
 
 	# (database value, showing_to_user_in_modelforms)
-	CHOICES = (('request','Request'), ('confirm', 'Confirm'), ('complete', 'Complete'), ('cancel','Cancel'))
+	CHOICES = (('request','Requested'), ('confirm', 'Confirmed'), ('complete', 'Completed'), ('cancel','Cancelled'))
 	
 	requester = models.ForeignKey(User, related_name='visits', on_delete=models.SET_NULL, null=True)
 	status = models.CharField(choices=CHOICES, max_length=10, default='request')
@@ -57,4 +60,18 @@ class VisitForm(ModelForm):
 					'start': forms.NumberInput(attrs={'type': 'date'}),
 					'end': forms.NumberInput(attrs={'type': 'date'})
 					}
+
+	def clean(self):
+		start = self.cleaned_data['start']
+		end = self.cleaned_data['end']
+
+		if start and end:
+			if start > end:
+				raise ValidationError("Visit must start before end.")
+			if start < date.today():
+				raise ValidationError("Visit must start today or later.")
+			if end < date.today():
+				raise ValidationError("Visit must end today or later.")
+
+		return self.cleaned_data
 

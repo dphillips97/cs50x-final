@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 import json
+from datetime import date
 from .models import *
 
 def index(request):
@@ -12,15 +13,12 @@ def index(request):
 
 		pets = Animal.objects.filter(owner=request.user)
 
-		#visits = Visit.objects.filter(requester=request.user)
-
 		context = {"pets": pets}
 					#"visits": visits
 
 		return render(request, "dogtracks/dashboard.html", context)
 
 	else:
-		
 		return render(request, "dogtracks/login.html")
 
 def edit_pet(request, id=None):
@@ -94,7 +92,7 @@ def edit_visit(request, id=None):
 		
 		# Set status to 'request' upon submit even if visit status is 'cancel'
 		if form.is_valid():
-			
+
 			visit.status = 'request'
 			visit.save()
 			return HttpResponseRedirect(reverse('index'))
@@ -116,34 +114,21 @@ def remove_visit(request, id):
 	visit.delete()
 	return HttpResponseRedirect(reverse('index'))
 
+def change_visit_status(request, id):
 
-# API call
-@csrf_exempt
-def cancel_visit(request, id):
+	visit = Visit.objects.get(id=id)
 
-	payload = {'message': None}
+	visit_status = visit.status
 
-	try:
-		visit = Visit.objects.get(id=id)
+	if visit_status == 'cancel':
+		visit.status = 'request'
+	elif visit_status == 'request':
+		visit.status = 'cancel'
 
-	except:
+	visit.save()
 
-		payload['message'] = 'Can not find visit'
+	return HttpResponseRedirect(reverse('index'))
 
-	if request.method == 'PUT':
-
-		if visit.status in ('request', 'confirm'):
-			visit.status = 'cancel'
-		
-		visit.save()
-
-		payload['message'] = 'Visit updated successfully.'
-		payload['status'] = visit.status
-
-	else:
-		payload['message'] = 'PUT request required.'
-
-	return JsonResponse(payload, safe=False)
 
 def visit_type(request, visit_type):
 

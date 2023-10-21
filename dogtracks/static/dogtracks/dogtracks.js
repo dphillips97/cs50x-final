@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Cancel the visit request
 	let cancelVisitButton = document.getElementById('btn-cancel-visit');
 	if (cancelVisitButton !== null) {
-		cancelVisitButton.addEventListener('click', cancelVisit);
+		cancelVisitButton.addEventListener('click', updateVisitStatus);
 	};
 
 	// Filter visits
@@ -50,25 +50,31 @@ function filterVisits(event) {
 	};
 };
 
-function cancelVisit(event) {
-
-	let visitId = this.dataset.instance;
-
-	fetch(`/dogtracks/cancel-visit/${visitId}`, {
-		method: 'PUT',
-		body: JSON.stringify({'status': 'cancel'}),
-		credentials: 'include',
-	})
-	.then(response => response.json())
-	.then(data => {
-		if (data['status'] == 'cancel') {
-			event.target.innerText = 'Visit Cancelled';
-			event.target.classList.add("is-static");
-			}
-		});
-};
 
 function redirect() {
 	// Just redirect to dashboard
 	document.location.href = '/dogtracks';
 };
+
+
+/* Not used, keeping for API call example
+function updateVisitStatus(event) {
+
+	let visitId = this.dataset.instance;
+	let visitStatus = this.dataset.status;
+
+	fetch(`/dogtracks/update-visit-status/${visitId}`, {
+		method: 'PUT',
+		body: JSON.stringify({'status': visitStatus}),
+		credentials: 'include',
+	})
+	.then(response => response.json())
+	.then(data => {
+		if (data['status'] == 'cancel') {
+				this.innerText = 'Un-Cancel Visit'; 
+			} else if (data['status'] == 'request') {
+				this.innerText = 'Cancel Visit'; 
+										};
+	});
+};
+*/

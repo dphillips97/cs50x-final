@@ -12,10 +12,22 @@
 							<span>➡️</span>
 							<span class="tag is-info is-light">{{ visit.end }}</span>
 							<span class="tag is-info is-light">{{ visit.duration }} days</span>
-							<span class="tag">{{ visit.status }}</span>
+
+							{% if visit.status == "request" %}
+							<span class="tag is-info">
+							{% elif visit.status == 'confirm' %}
+							<span class="tag is-primary">
+							{% elif visit.status == 'complete' %}
+							<span class="tag is-link">
+							{% elif visit.status == 'cancel' %}
+							<span class="tag is-warning">
+							{% endif %}
+							{{ visit.get_status_display }}
+							</span>
+
 						</div>
 						<div class="column">
-							<a class=" button is-text is-small" href="{% url 'update_visit' visit.id %}">
+							<a class=" button is-small" href="{% url 'update_visit' visit.id %}">
 							Edit Info
 							</a>
 						</div>
