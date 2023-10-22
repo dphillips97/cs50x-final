@@ -16,16 +16,18 @@
 				<article class="media">
 					<div class="media-left">
 						<figure class="image is-64x64">
-							{% if pet.photo %}
-								<!-- show image -->
-							{% else %}
-								<-- Placeholder image -->
-							{% endif %}
+							<!-- {% if pet.photo %} -->
+								<img src="{{ pet.photo.url }}" />
+							
+							<!-- {% else %}
+								<img src="{% static 'dogtracks/noun-pet.png' %}" />
+							{% endif %} -->
 						</figure>
 					</div>
 					<div class="media-content">
 						<div class="content">
 							<p><strong>{{ pet.name }}</strong></p>
+							<p>{{ pet.image.url }}</p>
 							<br />
 							<div class="columns is-vcentered">
 								<div class="column">

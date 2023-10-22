@@ -23,7 +23,7 @@ class Animal(models.Model):
 	birthday = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
 	def __str__(self):
-		return f"{self.name}"
+		return f"{self.name} is a {self.breed} owned  by {self.owner}."
 	
 
 class AnimalForm(ModelForm):
@@ -45,7 +45,7 @@ class Visit(models.Model):
 	notes = models.TextField(null=True, blank=True)
 
 	def __str__(self):
-		return f"Visit ({self.status}) by user {self.requester}"
+		return f"Visit {self.id} from user {self.requester}: {self.status}."
 
 	@property
 	def duration(self):

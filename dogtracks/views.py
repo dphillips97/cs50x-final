@@ -16,10 +16,10 @@ def index(request):
 		context = {"pets": pets}
 					#"visits": visits
 
-		return render(request, "dogtracks/dashboard.html", context)
+		return render(request, 'dogtracks/dashboard.html', context)
 
 	else:
-		return render(request, "dogtracks/login.html")
+		return render(request, 'dogtracks/login.html')
 
 def edit_pet(request, id=None):
 # Create an instance or existing pet OR new pet
@@ -58,7 +58,7 @@ def edit_pet(request, id=None):
 	context = {"form": form,
 				"title": title}
 
-	return render(request, "dogtracks/pet-form.html", context)
+	return render(request, 'dogtracks/pet-form.html', context)
 
 
 def remove_pet(request, id):
@@ -105,7 +105,7 @@ def edit_visit(request, id=None):
 	context = {"form": form,
 				"title": title}
 
-	return render(request, "dogtracks/visit-form.html", context)
+	return render(request, 'dogtracks/visit-form.html', context)
 
 
 def remove_visit(request, id):
@@ -140,7 +140,7 @@ def visit_type(request, visit_type):
 	except:
 		message = 'No visits found'
 
-	return render(request, "dogtracks/visit-list.html", {'visits': visits})
+	return render(request, 'dogtracks/visit-list.html', {'visits': visits})
 
 		
 
@@ -155,12 +155,12 @@ def login_view(request):
 		# Successful login
 		if user is not None:
 			login(request, user)
-			return HttpResponseRedirect(reverse("index"))
+			return HttpResponseRedirect(reverse('index'))
 
 		# Can't autenticate
 		else:
 			return render(request, 'dogtracks/login.html', 
-				{"message": "Please try again."})
+				{'message': 'Please try again.'})
 
 	# GET call
 	else:
@@ -169,33 +169,34 @@ def login_view(request):
 def logout_view(request):
 
 	logout(request)
-	return HttpResponseRedirect(reverse("index"))
+	return HttpResponseRedirect(reverse('index'))
 
 # Borrowed from project 4 Network b/c I can't get
 # a CreateUser form to work - maybe a AbstractUser
-# class issue
+# class issue?
 def register(request):
 	
-	if request.method == "POST":
+	if request.method == 'POST':
 
-		username = request.POST["username"]
-		password = request.POST["password"]
-		password_confirm = request.POST["password_confirm"]
+		username = request.POST['username']
+		password = request.POST['password']
+		password_confirm = request.POST['password_confirm']
+		email = request.POST['email']
         
         # Handle in model eventually
 		if password != password_confirm:
-			return render(request, "dogtracks/register.html", {
-				"message": "Passwords must match."})
+			return render(request, 'dogtracks/register.html', {
+				'message': 'Passwords must match.'})
 		try:
-			new_user = User.objects.create_user(username, password)
+			new_user = User.objects.create_user(username, email=email, password=password)
 			new_user.save()
 
 		except:
-			return render(request, "dogtracks/register.html", {
-				"message": "Username already taken, please choose another."})
+			return render(request, 'dogtracks/register.html', {
+				'message': 'Username already taken, please choose another.'})
         
 		# Success
 		login(request, new_user)
-		return HttpResponseRedirect(reverse("index"))
+		return HttpResponseRedirect(reverse('index'))
 	else:
-		return render(request, "dogtracks/register.html")
+		return render(request, 'dogtracks/register.html')
