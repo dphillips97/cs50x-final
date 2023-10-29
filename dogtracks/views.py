@@ -44,10 +44,12 @@ def edit_pet(request, id=None):
 	# from this view and existing pet already has owner
 	if request.method == 'POST':
 
-		form = AnimalForm(request.POST, instance=pet)
+		form = AnimalForm(request.POST, request.FILES, instance=pet)
+
+		print(f"\n\n{form.__dict__}")
 		
 		if form.is_valid():
-			pet.save()
+			form.save()
 			return HttpResponseRedirect(reverse('index'))
 
 	# Return unbound form

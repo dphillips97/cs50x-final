@@ -17,8 +17,7 @@
 					<div class="media-left">
 						<figure class="image is-64x64">
 							{% if pet.photo %}
-								<img src="{{ pet.photo.url }}" />
-							
+								<img src="{{ pet.photo }}" />
 							{% else %}
 								<img src="{% static 'dogtracks/noun-pet.png' %}" />
 							{% endif %}

@@ -10,13 +10,15 @@
 </head>
 <body>
 	
-	<nav class="navbar" role="navigation">
+	<nav class="navbar is-primary" role="navigation">
 		<div class="navbar-brand">
 			<a class="navbar-item" href="{% url 'index' %}">Dogtracks</a>
 		</div>
 		<div class="navbar-start">
-			<a class="navbar-item" href="{% url 'login' %}">Log in</a>
-			<a class="navbar-item" href="{% url 'logout' %}">Log out</a>
+			{% if user.is_authenticated %}
+				<a class="navbar-item" href="{% url 'login' %}">Log in</a>
+				<a class="navbar-item" href="{% url 'logout' %}">Log out</a>
+			{% endif %}
 			<a class="navbar-item" href="{% url 'register' %}">Register</a>
 		</div>
 	</nav>

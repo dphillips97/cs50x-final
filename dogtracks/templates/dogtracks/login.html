@@ -3,12 +3,30 @@
 {% block content %}
 
 	{% if message %}
-		{{ message }}
-		<br />
+	{{ message }}
+	<br />
 	{% endif %}
+	<div class="container"> <!-- main div -->
+		<br />
+		<div class="box">
+			<section class="section">
+				<p>When you leave town, you want the best care for your pets. They
+					prefer to stay in the place that they know
+					best while you're away. Pet-sitters can help you keep your animals
+					calm and happy, and you don't need to worry about picking up and 
+					dropping off your pets to a kennel.</p>
+				<hr />
+				<p>Dogtracks allows you to <strong>create, add, delete, and view
+					</strong>your pets and requst visits from a pet sitter. Once your request
+					is submitted, the pet sitter will follow up with you.</p>
+				<hr />
+				<p>As a pet-sitter, you can
+					<strong>manage info about pets, visits, and pet owners</strong>. You can also
+					<strong>confirm, complete, or cancel</strong> a requested visit.</p>
+			</section>
+		</div>
 
-	<div class="container">
-		<form action="{% url 'login' %}" method='post'>
+		<form action="{% url 'login' %}" method='post' class="box">
 			{% csrf_token %}
 			<div class="field">
 				<label class="label">Username</label>
@@ -30,5 +48,5 @@
 				</div>
 			</div>
 		</form>
-	</div>
+	</div> <!-- end main container div -->
 {% endblock %}
