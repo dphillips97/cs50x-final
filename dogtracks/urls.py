@@ -26,5 +26,5 @@ urlpatterns = [
 	path('show-visits/<str:visit_type>', views.visit_type, name="visit_type"),
 ]
 
-#if settings.DEBUG:
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
