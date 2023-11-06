@@ -17,7 +17,8 @@
 	<div class="notification is-warning">
         This visit is cancelled. You can request it again by clicking 'Submit'.
     </div>
-    {% else %}
+    {% endif %}
+    {% if form.instance.status %}
     <div class="notification">
     	This visit is {{ form.instance.get_status_display }}.
     </div>

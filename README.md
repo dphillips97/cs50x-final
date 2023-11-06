@@ -27,19 +27,13 @@ I originally planned to create an admin view similar to the user's view. I reali
 Key Contents
 ---
 
-```dogtracks.js``` contains functions for redirects and the filter visits function in the user's dashboard. The latter incorporates an API call.
-
-```noun-pet.png``` is the default image displayed for a user when a pet picture is not specified.
-
-```views.py``` contains code that renders the dashboard and forms; allows for editing of pets and visits; handlkes JSON requests to filter visit types; and handles logins, logouts, and user registration.
-
-There are 7 HTML templates specifying layout common to all pages, form structure, and the main view called ```dashboard.html```.
-
-```admin.py``` has been updated to allow the admin to see the count of pets per user.
-
-```models.py``` includes the main models (User, Animal, and Visit) and their ModelForm versions and cleaning methods.
-
-```final/media/images/``` is the directory that images are uploaded to.
+- ```dogtracks.js``` contains functions for redirects and the filter visits function in the user's dashboard. The latter incorporates an API call.
+- ```noun-pet.png``` is the default image displayed for a user when a pet picture is not specified.
+- ```views.py``` contains code that renders the dashboard and forms; allows for editing of pets and visits; handlkes JSON requests to filter visit types; and handles logins, logouts, and user registration.
+- Seven HTML templates specifying layout common to all pages, form structure, and the main view called ```dashboard.html```. I used code from Project 4: Network to handle user creation since I could not use a CreateUser form, perhaps because of the ```AbstractUser``` class.
+- ```admin.py``` has been updated to allow the admin to see the count of pets per user.
+- ```models.py``` includes the main models (User, Animal, and Visit) and their ModelForm versions and cleaning methods.
+- ```final/media/images/``` is the directory that images are uploaded to. Several images are included for testing purposes.
 
 How to run
 ---

@@ -39,7 +39,7 @@ class Visit(models.Model):
 	CHOICES = (('request','Requested'), ('confirm', 'Confirmed'), ('complete', 'Completed'), ('cancel','Cancelled'))
 	
 	requester = models.ForeignKey(User, related_name='visits', on_delete=models.SET_NULL, null=True)
-	status = models.CharField(choices=CHOICES, max_length=10, default='request')
+	status = models.CharField(choices=CHOICES, max_length=10)
 	start = models.DateField(auto_now=False,auto_now_add=False)
 	end = models.DateField(auto_now=False,auto_now_add=False)
 	notes = models.TextField(null=True, blank=True)
